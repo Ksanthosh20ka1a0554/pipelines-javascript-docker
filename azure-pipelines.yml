@@ -14,11 +14,12 @@ steps:
   displayName: 'Run a one-line script'
 
 
-- task: Docker@2
+- task: Bash@3
   inputs:
-    containerRegistry: 'ksanthoshacr'
-    repository: 'ksanthoshacr'
-    command: 'buildAndPush'
-    Dockerfile: '**/Dockerfile'
-
-
+    targetType: 'inline'
+    script: |
+      # Write your commands here
+      
+      cd app
+      docker build -t ksanthoshacr.azurecr.io/hello-world:$(Build.BuildId) .
+      docker push ksanthoshacr.azurecr.io/hello-world:$(Build.BuildId)
