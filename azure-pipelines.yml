@@ -14,12 +14,13 @@ steps:
   displayName: 'Run a one-line script'
 
 
-- task: Bash@3
+- task: KubernetesManifest@1
   inputs:
-    targetType: 'inline'
-    script: |
-      # Write your commands here
-      
-      cd app
-      sudo docker build -t ksanthoshacr.azurecr.io/hello-world:$(Build.BuildId) .
-      sudo docker push ksanthoshacr.azurecr.io/hello-world:$(Build.BuildId)
+    action: 'deploy'
+    connectionType: 'azureResourceManager'
+    azureSubscriptionConnection: 'Azure subscription 1(aacc5ebf-2559-4923-814b-54e648113094)'
+    azureResourceGroup: 'aks-resource-group'
+    kubernetesCluster: 'aks'
+    useClusterAdmin: true
+    namespace: 'santhosh'
+    manifests: 'deployment.yml'
