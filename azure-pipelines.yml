@@ -13,14 +13,11 @@ steps:
 - script: kubectl get ns
   displayName: 'Run a one-line script'
 
-- task: Docker@2
-  inputs:
-    containerRegistry: 'ksanthoshacr'
-    repository: 'helloworld'
-    command: 'buildAndPush'
-    Dockerfile: '**/Dockerfile'
-    tags: |
-      $(Build.BuildId)
+- script: |
+    echo "Building and pushing docker image..."
+    sudo docker build -t ksanthoshacr.azurecr.io/helloworld:$(Build.BuildId) .
+    sudo docker push ksanthoshacr.azurecr.io/helloworld:$(Build.BuildId)
+  displayName: "Build and Push Docker image with sudo"
 
 # 🔹 Replace image tag in deployment.yml with current Build ID
 - script: |
