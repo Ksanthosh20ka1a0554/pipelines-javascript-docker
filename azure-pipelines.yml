@@ -15,6 +15,7 @@ steps:
 
 - script: |
     echo "Building and pushing docker image..."
+    cd app
     sudo docker build -t ksanthoshacr.azurecr.io/helloworld:$(Build.BuildId) .
     sudo docker push ksanthoshacr.azurecr.io/helloworld:$(Build.BuildId)
   displayName: "Build and Push Docker image with sudo"
@@ -22,7 +23,7 @@ steps:
 # 🔹 Replace image tag in deployment.yml with current Build ID
 - script: |
     echo "Updating deployment.yml with new image tag..."
-    sed -i "s#image: .*#image: ksanthoshacr.azurecr.io/helloworld:$(Build.BuildId)#" deployment.yml
+    sed -i "s#image: .*#image: ksanthoshacr.azurecr.io/helloworld:$(Build.BuildId)#" ../deployment.yml
     echo "Updated deployment file:"
     cat deployment.yml
   displayName: "Update image tag in deployment.yml"
